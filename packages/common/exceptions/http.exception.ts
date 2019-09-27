@@ -1,4 +1,4 @@
-import { isString, isObject } from '../utils/shared.utils';
+import { isObject, isString } from '../utils/shared.utils';
 
 /**
  * Defines the base Nest HTTP exception, which is handled by the default
@@ -9,7 +9,6 @@ import { isString, isObject } from '../utils/shared.utils';
  * @publicApi
  */
 export class HttpException extends Error {
-  public readonly message: any;
   /**
    * Instantiate a plain HTTP Exception.
    *
@@ -40,7 +39,14 @@ export class HttpException extends Error {
     private readonly status: number,
   ) {
     super();
-    this.message = response;
+    this.initMessage();
+  }
+
+  public initMessage() {
+    const defaultText = `HTTP Exception (response status code: ${this.status})`;
+    this.message = isString(this.response)
+      ? `${defaultText} - ${this.response}`
+      : defaultText;
   }
 
   public getResponse(): string | object {
@@ -49,15 +55,6 @@ export class HttpException extends Error {
 
   public getStatus(): number {
     return this.status;
-  }
-
-  public toString(): string {
-    const message = this.getErrorString(this.message);
-    return `Error: ${message}`;
-  }
-
-  private getErrorString(target: string | object): string {
-    return isString(target) ? target : JSON.stringify(target);
   }
 
   public static createBody = (
