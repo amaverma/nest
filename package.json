@@ -67,7 +67,7 @@
     "optional": "0.1.4",
     "path-to-regexp": "3.2.0",
     "pump": "3.0.0",
-    "redis": "2.8.0",
+    "redis": "3.1.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.3",
     "rxjs-compat": "6.5.3",
